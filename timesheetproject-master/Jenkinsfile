@@ -1,25 +1,11 @@
 pipeline {
     agent any
-    tools {
-        maven '$M2_HOME'
-    }
+
     stages {
-        stage('GIT') {
+        stage('Hello') {
             steps {
-                git branch: 'master',
-                    url: 'https://github.com/HOUDA-18/timesheetprojectDevops.git'
+                echo 'Hello World'
             }
         }
-        
-         
-        stage('Compile') {
-            steps {
-                sh 'mvn clean compile'
-                
-            }
-        }
-           
-  
-     
     }
 }
