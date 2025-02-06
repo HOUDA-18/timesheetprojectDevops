@@ -7,15 +7,15 @@ pipeline {
         stage('GIT') {
             steps {
                 git branch: 'master',
-                    url: 'https://github.com/hwafa/timesheetproject.git'
+                    url: 'https://github.com/HOUDA-18/timesheetprojectDevops.git'
             }
         }
         
          
         stage('Compile') {
             steps {
-                sh 'mvn clean'
-                sh 'mvn compile'
+                sh 'mvn clean compile'
+                
             }
         }
            
