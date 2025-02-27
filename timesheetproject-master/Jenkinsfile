@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Git') {
             steps {
-                git branch: 'master',  // Suppression de l'espace en trop
+                git branch: 'master', 
                     url: 'https://github.com/hwafa/timesheetproject.git'
             }
         }
@@ -15,12 +15,30 @@ pipeline {
             }
         }
 
+        stage('Verify Structure') {
+            steps {
+                sh """
+                    echo "=== Structure des fichiers ==="
+                    ls -al
+                    echo "=== Contenu de timesheetproject-master ==="
+                    ls -al timesheetproject-master/
+                """
+            }
+        }
+
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    def scannerHome = tool 'atliersonar' // Vérifier le nom de l'outil dans Jenkins
-                    withSonarQubeEnv('atliersonar') { // Vérifier que 'SonarQube' correspond au serveur configuré
-                        sh "${scannerHome}/bin/sonar-scanner"
+                    def scannerHome = tool 'atliersonar'
+                    
+                    // Exécution depuis la racine du workspace
+                    withSonarQubeEnv('atliersonar') {
+                        sh """
+                            ${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=atliersonar \
+                            -Dsonar.sources=timesheetproject-master/src \
+                            -Dsonar.projectName=atliersonar
+                        """
                     }
                 }
             }
