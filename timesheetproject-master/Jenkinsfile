@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     def scannerHome = tool 'atliersonar' // Vérifier le nom de l'outil dans Jenkins
-                    withSonarQubeEnv('SonarQube') { // Vérifier que 'SonarQube' correspond au serveur configuré
+                    withSonarQubeEnv('atliersonar') { // Vérifier que 'SonarQube' correspond au serveur configuré
                         sh "${scannerHome}/bin/sonar-scanner"
                     }
                 }
