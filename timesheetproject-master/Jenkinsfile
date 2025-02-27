@@ -14,25 +14,21 @@ pipeline {
                 sh 'mvn clean compile'
             }
         }
-
-     
-
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                    def scannerHome = tool 'atliersonar'
-                    
-                    // Exécution depuis la racine du workspace
-                    withSonarQubeEnv('atliersonar') {
-                        sh """
-                            ${scannerHome}/bin/sonar-scanner \
-                            -Dsonar.projectKey=atliersonar \
-                            -Dsonar.sources=timesheetproject-master/src \
-                            -Dsonar.projectName=atliersonar
-                        """
-                    }
-                }
+stage('SonarQube Analysis') {
+    steps {
+        script {
+            def scannerHome = tool 'atliersonar'
+            
+            withSonarQubeEnv('atliersonar') {
+                sh """
+                    ${scannerHome}/bin/sonar-scanner \
+                    -Dsonar.projectKey=atliersonar \
+                    -Dsonar.sources=src \         // Chemin corrigé
+                    -Dsonar.projectName=atliersonar
+                """
             }
         }
+    }
+}
     }
 }
