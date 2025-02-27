@@ -15,16 +15,7 @@ pipeline {
             }
         }
 
-        stage('Verify Structure') {
-            steps {
-                sh """
-                    echo "=== Structure des fichiers ==="
-                    ls -al
-                    echo "=== Contenu de timesheetproject-master ==="
-                    ls -al timesheetproject-master/
-                """
-            }
-        }
+     
 
         stage('SonarQube Analysis') {
             steps {
