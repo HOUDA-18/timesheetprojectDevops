@@ -19,7 +19,7 @@ steps{
 
 script {
 
-def scannerHome = tool 'atliersonar'
+def scannerHome = tool 'sonar'
 
 withSonarQubeEnv {
 
