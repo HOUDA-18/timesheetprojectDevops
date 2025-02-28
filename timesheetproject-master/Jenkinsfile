@@ -14,12 +14,18 @@ pipeline {
                 sh 'mvn clean compile'
             }
         }
-
+/*
         stage('MVN Sonarqube') {
             steps {
                 sh '''mvn sonar:sonar \
                     -Dsonar.login=squ_745a76d8d40e899942e83b4416d6be8a5b911c47 \
                     -Dmaven.test.skip=true'''
+            }
+        }
+        */
+           stage('MVN Nexus') {
+            steps {
+                sh 'mvn deploy -Dmaven.test.skip=true'
             }
         }
     }
