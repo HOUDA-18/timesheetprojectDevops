@@ -9,7 +9,6 @@ pipeline {
     }
 
     stages {
-        // Cloner le dépôt Git
         stage('Git') {
             steps {
                 git branch: 'master',
@@ -17,48 +16,33 @@ pipeline {
             }
         }
 
-        // Compilation du projet avec Maven
         stage('Compile') {
             steps {
                 sh 'mvn clean compile'
             }
         }
 
-        /*
-        // Analyses SonarQube (si nécessaire)
-        stage('MVN Sonarqube') {
-            steps {
-                sh '''mvn sonar:sonar \
-                    -Dsonar.login=squ_745a76d8d40e899942e83b4416d6be8a5b911c47 \
-                    -Dmaven.test.skip=true'''
-            }
-        }
-        */
-
-        // Installation et déploiement vers Nexus
         stage('MVN Nexus') {
             steps {
                 sh 'mvn install -Dmaven.test.skip=true'
             }
         }
 
-        // Construction de l'image Docker
         stage('Docker Build') {
             steps {
                 script {
                     // Authentification avec Docker registry Nexus
                     docker.withRegistry(dockerRegistry, registryCredentials) {
-                        // Utiliser bash pour la commande docker build
+                        // Spécifie le chemin du Dockerfile si nécessaire
                         sh '''
                             #!/bin/bash
-                            docker build -t $imageName .
+                            docker build -t $imageName -f timesheetproject-master/Dockerfile timesheetproject-master/
                         '''
                     }
                 }
             }
         }
 
-        // Pousser l'image Docker dans le registre Nexus
         stage('Docker Push') {
             steps {
                 script {
