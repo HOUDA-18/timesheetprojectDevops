@@ -1,7 +1,16 @@
 pipeline {
     agent any
 
+    environment {
+        // Variables d'environnement pour Nexus et Docker
+        registry = "192.168.65.129:8083" // Ton registre Nexus
+        imageName = "houdachaanbi/timesheet-devops-1.0.0"  // Nom de l'image Docker
+        dockerRegistry = "http://${registry}"  // URL du registre Docker
+        registryCredentials = "nexus"  // Credentials ID pour Nexus Docker Registry
+    }
+
     stages {
+        // Cloner le dépôt Git
         stage('Git') {
             steps {
                 git branch: 'master',
@@ -9,6 +18,7 @@ pipeline {
             }
         }
 
+        // Compilation du projet avec Maven
         stage('Compile') {
             steps {
                 sh 'mvn clean compile'
@@ -16,6 +26,7 @@ pipeline {
         }
 
         /*
+        // Analyses SonarQube (si nécessaire)
         stage('MVN Sonarqube') {
             steps {
                 sh '''mvn sonar:sonar \
@@ -25,18 +36,35 @@ pipeline {
         }
         */
 
+        // Installation et déploiement vers Nexus
         stage('MVN Nexus') {
             steps {
                 sh 'mvn install -Dmaven.test.skip=true'
             }
         }
 
+        // Construction de l'image Docker
         stage('Docker Build') {
             steps {
-               
+                script {
+                    // Authentification avec Docker registry Nexus
+                    docker.withRegistry(dockerRegistry, registryCredentials) {
+                        // Construction de l'image Docker
+                        sh 'docker build -t ${houdachaanbi/timesheet-devops-1.0.0 } .'
+                    }
+                }
+            }
+        }
 
-                // Construction de l'image Docker avec le bon chemin
-                sh 'docker  build -t houdachaanbi/timesheet-devops-1.0.0 .'
+        // Pousser l'image Docker dans le registre Nexus
+        stage('Docker Push') {
+            steps {
+                script {
+                    // Pousser l'image Docker dans le registre
+                    docker.withRegistry(dockerRegistry, registryCredentials) {
+                        sh 'docker push ${houdachaanbi/timesheet-devops-1.0.0 }'
+                    }
+                }
             }
         }
     }
