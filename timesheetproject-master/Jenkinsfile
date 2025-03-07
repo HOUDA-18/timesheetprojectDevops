@@ -25,7 +25,7 @@ pipeline {
         */
            stage('MVN Nexus') {
             steps {
-                sh 'mvn deploy -Dmaven.test.skip=true'
+                sh 'mvn install -Dmaven.test.skip=true'
             }
         }
          stage('Docker Image') {
@@ -34,12 +34,7 @@ pipeline {
 
             }
     }
-         stage('Docker deploy') {
-            steps {
-                sh 'docker push  houdachaanbi/timesheet-devops:1.0.0 .'
-
-            }
-    }
+         
     }
 }
 
