@@ -27,6 +27,12 @@ pipeline {
                 sh 'mvn install -Dmaven.test.skip=true'
             }
         }
+        stage('Check File Structure') {
+    steps {
+        sh 'ls -la'
+    }
+}
+
 
         stage('Docker Build') {
             steps {
