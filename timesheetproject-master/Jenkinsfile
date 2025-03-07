@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        // Variables d'environnement pour Nexus et Docker
         registry = "192.168.65.129:8083" // Ton registre Nexus
         imageName = "houdachaanbi/timesheet-devops-1.0.0"  // Nom de l'image Docker
         dockerRegistry = "http://${registry}"  // URL du registre Docker
@@ -49,8 +48,11 @@ pipeline {
                 script {
                     // Authentification avec Docker registry Nexus
                     docker.withRegistry(dockerRegistry, registryCredentials) {
-                        // Construction de l'image Docker
-                        sh 'docker build -t ${imageName } .'
+                        // Utiliser bash pour la commande docker build
+                        sh '''
+                            #!/bin/bash
+                            docker build -t $imageName .
+                        '''
                     }
                 }
             }
@@ -62,7 +64,10 @@ pipeline {
                 script {
                     // Pousser l'image Docker dans le registre
                     docker.withRegistry(dockerRegistry, registryCredentials) {
-                        sh 'docker push ${imageName}'
+                        sh '''
+                            #!/bin/bash
+                            docker push $imageName
+                        '''
                     }
                 }
             }
