@@ -28,5 +28,16 @@ pipeline {
                 sh 'mvn deploy -Dmaven.test.skip=true'
             }
         }
+         stage('Docker Image') {
+            steps {
+                sh 'docker build -t houdachaanbi/timesheet-devops:1.0.0 .'
+
+            }
+    }
+         stage('Docker deploy') {
+            steps {
+                sh 'docker push  houdachaanbi/timesheet-devops:1.0.0 .'
+
+            }
     }
 }
