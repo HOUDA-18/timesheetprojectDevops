@@ -50,7 +50,7 @@ pipeline {
                     // Authentification avec Docker registry Nexus
                     docker.withRegistry(dockerRegistry, registryCredentials) {
                         // Construction de l'image Docker
-                        sh 'docker build -t ${houdachaanbi/timesheet-devops-1.0.0 } .'
+                        sh 'docker build -t ${imageName } .'
                     }
                 }
             }
@@ -62,7 +62,7 @@ pipeline {
                 script {
                     // Pousser l'image Docker dans le registre
                     docker.withRegistry(dockerRegistry, registryCredentials) {
-                        sh 'docker push ${houdachaanbi/timesheet-devops-1.0.0 }'
+                        sh 'docker push ${imageName}'
                     }
                 }
             }
