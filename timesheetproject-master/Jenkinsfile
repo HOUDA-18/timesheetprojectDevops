@@ -36,7 +36,7 @@ pipeline {
                
 
                 // Construction de l'image Docker avec le bon chemin
-                sh 'docker  build -t houdachaanbi/timesheet-devops-1.0 -f ./Dockerfile '
+                sh 'docker  build -t houdachaanbi/timesheet-devops-1.0.0  ./Dockerfile '
             }
         }
     }
