@@ -34,33 +34,15 @@ pipeline {
 }
 
 
-        stage('Docker Build') {
+      stage('Build Image') {
             steps {
-                script {
-                    // Authentification avec Docker registry Nexus
-                    docker.withRegistry(dockerRegistry, registryCredentials) {
-                        // Spécifie le chemin du Dockerfile si nécessaire
-                        sh '''
-                            #!/bin/bash
-                            docker build -t $imageName -f timesheetproject-master/Dockerfile timesheetproject-master/
-                        '''
-                    }
-                }
+                sh 'docker build -t houdachaanbi/timesheet-devops:1.0.0 .'
             }
         }
-
-        stage('Docker Push') {
+        stage('Deploy Image') {
             steps {
-                script {
-                    // Pousser l'image Docker dans le registre
-                    docker.withRegistry(dockerRegistry, registryCredentials) {
-                        sh '''
-                            #!/bin/bash
-                            docker push $imageName
-                        '''
-                    }
-                }
+                sh 'docker push houdachaanbi/timesheet-devops:1.0.0'
             }
-        } 
+        }
     }
 }
