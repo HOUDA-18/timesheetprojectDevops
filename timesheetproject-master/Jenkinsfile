@@ -26,7 +26,11 @@ pipeline {
         sh 'ls -la'
     }
 }
-
+stage('Debug') {
+    steps {
+        sh 'find . -name "Dockerfile"'
+    }
+}
 
       stage('Build Image') {
             steps {
