@@ -1,13 +1,7 @@
 pipeline {
     agent any
 
-    environment {
-        registry = "192.168.65.129:8083" // Ton registre Nexus
-        imageName = "houdachaanbi/timesheet-devops-1.0.0"  // Nom de l'image Docker
-        dockerRegistry = "http://${registry}"  // URL du registre Docker
-        registryCredentials = "nexus"  // Credentials ID pour Nexus Docker Registry
-    }
-
+   
     stages {
         stage('Git') {
             steps {
