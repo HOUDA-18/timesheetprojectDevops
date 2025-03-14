@@ -32,12 +32,12 @@ stage('Debug') {
     }
 }
 
-      stage('Build Image') {
-            steps {
-                sh 'sh docker build -t houdachaanbi/timesheet-devops:1.0.0 -f ./Dockerfile .'
+    stage('Build Image') {
+    steps {
+        sh 'docker build -t houdachaanbi/timesheet-devops:1.0.0 -f ./Dockerfile .'
+    }
+}
 
-            }
-        }
         stage('Deploy Image') {
             steps {
                 sh 'docker push houdachaanbi/timesheet-devops:1.0.0'
