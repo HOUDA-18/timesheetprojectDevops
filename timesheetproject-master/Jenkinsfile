@@ -30,7 +30,8 @@ pipeline {
 
       stage('Build Image') {
             steps {
-                sh 'sh docker build -t houdachaanbi/timesheet-devops:1.0.0 .'
+                sh 'sh docker build -t houdachaanbi/timesheet-devops:1.0.0 -f ./Dockerfile .'
+
             }
         }
         stage('Deploy Image') {
